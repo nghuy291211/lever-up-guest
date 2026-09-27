@@ -73,9 +73,51 @@ button{touch-action:manipulation}
  .bottom-nav button{min-height:48px;border:0;border-radius:13px;background:transparent;color:#7f8da5;font-size:9px;font-weight:700}
  .bottom-nav button span{display:block;font-size:18px;margin-bottom:2px}.bottom-nav button.active{background:#16243a;color:#fff}
 }
+
+.ambient{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.app,.login,.notice-backdrop{position:relative;z-index:1}
+.orb{position:absolute;border-radius:50%;filter:blur(55px);opacity:.25;animation:float 13s ease-in-out infinite}
+.orb1{width:260px;height:260px;background:#35d9ff;left:-70px;top:8%;animation-delay:-2s}
+.orb2{width:300px;height:300px;background:#667cff;right:-100px;top:30%;animation-delay:-7s}
+.orb3{width:220px;height:220px;background:#2ee59d;left:35%;bottom:-90px;animation-delay:-10s}
+.cursor-glow{position:absolute;left:0;top:0;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,#35d9ff24 0,#667cff0d 38%,transparent 70%);filter:blur(3px);transition:opacity .25s}
+@keyframes float{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(35px,-28px,0) scale(1.12)}}
+@keyframes rise{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 #35d9ff00}50%{box-shadow:0 0 0 7px #35d9ff10}}
+@keyframes shimmer{0%{background-position:-250% 0}100%{background-position:250% 0}}
+.login-card,.panel,.stat,.topbar{animation:rise .55s ease both}
+.stat{animation-delay:.08s}
+.panel{animation-delay:.12s}
+.primary{background-size:200% 100%;animation:shimmer 4s linear infinite}
+.mini-logo,.logo{animation:pulse 2.8s ease-in-out infinite}
+.notice-backdrop{position:fixed;inset:0;z-index:100;background:#02050bd9;backdrop-filter:blur(12px);display:grid;place-items:center;padding:18px}
+.notice-card{width:min(440px,100%);padding:27px;border:1px solid #2d4163;border-radius:25px;background:linear-gradient(145deg,#111c30f5,#080e19f7);box-shadow:0 30px 100px #000b;animation:rise .45s ease}
+.notice-icon{width:58px;height:58px;display:grid;place-items:center;border-radius:18px;background:linear-gradient(135deg,#35d9ff,#667cff);font-size:27px;box-shadow:0 12px 35px #35d9ff30}
+.notice-kicker{margin-top:17px;color:#62ddff;font-size:10px;font-weight:900;letter-spacing:.16em}
+.notice-card h2{margin:8px 0;font-size:23px;line-height:1.2}.notice-card p{color:#91a0b7;font-size:13px;line-height:1.6}
+.check-row{display:flex;align-items:center;gap:9px;color:#bac6d8;font-size:12px;margin-top:17px;cursor:pointer}.check-row input{accent-color:#35d9ff}
+.key-summary{padding:13px;border-radius:13px;background:#09121f;color:#93a2b9;font-size:11px;line-height:1.55}
+.key-row{animation:rise .3s ease both}
+@media(max-width:600px){.cursor-glow{width:180px;height:180px}.notice-card{padding:23px}.notice-card h2{font-size:21px}}
+
 </style>
 </head>
 <body>
+<div class="ambient" aria-hidden="true">
+  <span class="orb orb1"></span><span class="orb orb2"></span><span class="orb orb3"></span>
+  <span class="cursor-glow" id="cursorGlow"></span>
+</div>
+
+<div id="trialNotice" class="notice-backdrop hidden">
+  <div class="notice-card">
+    <div class="notice-icon">⚡</div>
+    <div class="notice-kicker">BETA • TESTING</div>
+    <h2>Trang web đang trong quá trình thử nghiệm</h2>
+    <p>Một số chức năng và giao diện có thể tiếp tục được cập nhật. Nếu gặp lỗi, hãy thử tải lại trang.</p>
+    <label class="check-row"><input id="hideTrial" type="checkbox"> Không hiển thị lại trong 5 giờ</label>
+    <button class="btn primary wide" onclick="closeTrialNotice()">Đã hiểu</button>
+  </div>
+</div>
 
 <section id="login" class="login">
   <div class="login-card">
@@ -150,8 +192,16 @@ button{touch-action:manipulation}
         <div class="form-note">Dữ liệu được gửi tới backend hiện tại. Giao diện này chỉ thay đổi phần hiển thị, không thay đổi API của server.</div>
       </div>
 
+      <div id="keyPanel" class="panel hidden">
+        <div class="panel-head">
+          <div><h2>🔐 Access Keys</h2><span class="muted">Chỉ Admin quản lý được key</span></div>
+          <button class="btn" onclick="openKeys()">Quản lý</button>
+        </div>
+        <div class="key-summary">Tạo key mới, xem danh sách key đã cấp và thu hồi key trực tiếp từ panel.</div>
+      </div>
+
       <div class="panel">
-        <div class="panel-head"><h2>System</h2><span class="badge online"><i class="dot"></i> LIVE</span></div>
+        <div class="panel-head"><h2>✨ System</h2><span class="badge online"><i class="dot"></i> LIVE</span></div>
         <div class="muted">Dashboard đang kết nối trực tiếp với worker.</div>
       </div>
     </aside>
@@ -173,9 +223,26 @@ button{touch-action:manipulation}
 let role='user',timer;
 const $=id=>document.getElementById(id);
 async function req(url,opt={}){const r=await fetch(url,{credentials:'same-origin',...opt,headers:{'Content-Type':'application/json',...(opt.headers||{})}});let d={};try{d=await r.json()}catch{}if(r.status===401){showLogin();throw new Error('AUTH')}if(!r.ok||d.status==='error')throw new Error(d.error||'Request failed');return d}
+function showTrialNotice(){
+ const k='lw_trial_notice_until', until=Number(localStorage.getItem(k)||0);
+ if(Date.now()<until)return;
+ $('trialNotice').classList.remove('hidden');
+}
+function closeTrialNotice(){
+ if($('hideTrial').checked)localStorage.setItem('lw_trial_notice_until',String(Date.now()+5*60*60*1000));
+ $('trialNotice').classList.add('hidden');
+}
+function initMotionGlow(){
+ const g=$('cursorGlow');
+ let tx=innerWidth/2,ty=innerHeight/2,x=tx,y=ty;
+ addEventListener('pointermove',e=>{tx=e.clientX;ty=e.clientY},{passive:true});
+ const tick=()=>{x+=(tx-x)*.12;y+=(ty-y)*.12;g.style.transform=`translate3d(${x-110}px,${y-110}px,0)`;requestAnimationFrame(tick)};
+ tick();
+}
+initMotionGlow();
 async function boot(){try{const a=await fetch('/api/auth',{credentials:'same-origin'});const d=await a.json();if(d.authenticated){role=d.role;showApp();}else showLogin();}catch{showLogin()}}
 function showLogin(){$('login').classList.remove('hidden');$('app').classList.add('hidden');clearInterval(timer)}
-function showApp(){$('login').classList.add('hidden');$('app').classList.remove('hidden');$('keysBtn').classList.toggle('hidden',role!=='admin');refreshStats();clearInterval(timer);timer=setInterval(refreshStats,2500)}
+function showApp(){$('login').classList.add('hidden');$('app').classList.remove('hidden');$('keysBtn').classList.toggle('hidden',role!=='admin');$('keyPanel').classList.toggle('hidden',role!=='admin');refreshStats();clearInterval(timer);timer=setInterval(refreshStats,2500);showTrialNotice()}
 async function login(){const key=$('loginKey').value.trim();if(!key)return;$('loginError').textContent='';try{const d=await req('/api/login',{method:'POST',body:JSON.stringify({key})});role=d.role; $('loginKey').value='';showApp()}catch(e){$('loginError').textContent=e.message}}
 async function logout(){await fetch('/api/logout',{method:'POST',credentials:'same-origin'});showLogin()}
 function fmt(n){return Number(n||0).toLocaleString('en-US')}
@@ -209,7 +276,7 @@ async function deleteAccount(uid){if(!confirm('Xoá account '+uid+'?'))return;tr
 async function refreshAccount(uid){try{await req('/api/account/refresh',{method:'POST',body:JSON.stringify({uid})});refreshStats()}catch(e){alert(e.message)}}
 function openAdd(){window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});$('uid').focus()}
 function closeModal(){$('modal').classList.add('hidden')}
-async function openKeys(){if(role!=='admin')return;try{const d=await req('/api/keys');$('modalContent').innerHTML=`<div class="panel-head"><h2>Access Keys</h2><button class="btn" onclick="closeModal()">×</button></div><p class="muted">Master key mới có quyền tạo/revoke key. Key được lưu dạng hash.</p><div class="form-grid"><input id="keyLabel" placeholder="Tên người dùng / ghi chú"><button class="btn primary" onclick="createKey()">＋ Tạo key</button></div><div id="keyList" style="margin-top:15px">${keyList(d.keys)}</div>`;$('modal').classList.remove('hidden')}catch(e){alert(e.message)}}
+async function openKeys(){if(role!=='admin')return;try{const d=await req('/api/keys');$('modalContent').innerHTML=`<div class="panel-head"><div><h2>🔐 Access Keys</h2><span class="badge">ADMIN</span></div><button class="btn" onclick="closeModal()">×</button></div><p class="muted">Master key có quyền tạo/thu hồi key. Server chỉ lưu hash của key.</p><div class="form-grid"><input id="keyLabel" placeholder="Tên người dùng / ghi chú"><button class="btn primary" onclick="createKey()">＋ Tạo key</button></div><div id="keyList" style="margin-top:15px">${keyList(d.keys)}</div>`;$('modal').classList.remove('hidden')}catch(e){alert(e.message)}}
 function keyList(keys){return keys.length?keys.map(k=>`<div class="key-row"><div><b>${esc(k.label||'Không đặt tên')}</b><div class="muted">${esc(k.created_at||'')}</div></div><button class="btn" onclick="revokeKey('${esc(k.id)}')">Thu hồi</button></div>`).join(''):'<div class="empty">Chưa có key phụ.</div>'}
 async function createKey(){const label=$('keyLabel').value.trim();try{const d=await req('/api/keys/create',{method:'POST',body:JSON.stringify({label})});$('modalContent').insertAdjacentHTML('beforeend',`<div class="key-output">${esc(d.key)}</div><div class="muted" style="margin-top:8px">Hãy sao chép key này ngay. Vì server chỉ lưu hash nên không thể xem lại.</div>`);$('keyLabel').value='';}catch(e){alert(e.message)}}
 async function revokeKey(id){if(!confirm('Thu hồi key này?'))return;try{await req('/api/keys/revoke',{method:'POST',body:JSON.stringify({id})});openKeys()}catch(e){alert(e.message)}}
