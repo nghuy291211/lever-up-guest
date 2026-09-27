@@ -1,33 +1,175 @@
 <!doctype html>
 <html lang="vi">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#070b14">
 <title>LW Control Center</title>
 <style>
-:root{--bg:#060811;--card:#0d1220;--line:#1c2740;--text:#eef4ff;--muted:#8794ad;--cyan:#35d9ff;--blue:#5d7cff;--green:#2ee59d;--red:#ff5f73;--amber:#ffc857}*{box-sizing:border-box}body{margin:0;color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:radial-gradient(circle at 10% 0%,#17265b 0,transparent 34%),radial-gradient(circle at 100% 100%,#063c49 0,transparent 30%),var(--bg);min-height:100vh}button,input{font:inherit}.hidden{display:none!important}.login{min-height:100vh;display:grid;place-items:center;padding:20px}.login-card{width:min(430px,100%);background:rgba(13,18,32,.86);border:1px solid #263452;border-radius:28px;padding:34px;box-shadow:0 30px 90px #0008;backdrop-filter:blur(18px)}.logo{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,var(--cyan),var(--blue));font-size:25px;font-weight:900;box-shadow:0 12px 35px #35d9ff33}.login h1{margin:22px 0 8px;font-size:30px}.login p{color:var(--muted);line-height:1.55}.field{margin-top:20px}.field label{display:block;color:#aab7ce;font-size:13px;margin-bottom:8px}.field input{width:100%;padding:14px 15px;border-radius:13px;border:1px solid var(--line);background:#080d18;color:#fff;outline:none}.field input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #35d9ff16}.btn{border:0;border-radius:12px;padding:12px 16px;color:#fff;background:#151d30;cursor:pointer;transition:.2s}.btn:hover{transform:translateY(-1px);filter:brightness(1.12)}.primary{background:linear-gradient(135deg,var(--cyan),var(--blue));color:#03101a;font-weight:800}.wide{width:100%;margin-top:18px}.error{color:#ff8796;margin-top:12px;font-size:13px}.app{padding:18px}.wrap{max-width:1450px;margin:auto}.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 16px;background:#0b101dce;border:1px solid var(--line);border-radius:20px;position:sticky;top:12px;z-index:10;backdrop-filter:blur(20px)}.brand{display:flex;align-items:center;gap:12px}.mini-logo{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,var(--cyan),var(--blue));font-weight:900}.brand b{display:block}.brand small{color:var(--muted)}.actions{display:flex;gap:8px;flex-wrap:wrap}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}.stat,.panel{background:linear-gradient(180deg,#101728e8,#0b101be8);border:1px solid var(--line);border-radius:20px;box-shadow:0 14px 45px #0002}.stat{padding:18px}.stat span{color:var(--muted);font-size:12px}.stat strong{display:block;font-size:28px;margin-top:7px}.layout{display:grid;grid-template-columns:1.5fr .9fr;gap:14px}.panel{padding:18px;margin-bottom:14px}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px}.panel h2{font-size:16px;margin:0}.muted{color:var(--muted);font-size:12px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:720px}th,td{text-align:left;padding:12px 9px;border-bottom:1px solid #182238;font-size:13px}th{color:#7888a5;font-size:11px;text-transform:uppercase;letter-spacing:.08em}.badge{display:inline-flex;align-items:center;gap:6px;border-radius:30px;padding:5px 9px;font-size:11px;background:#182238;color:#aab7ce}.dot{width:6px;height:6px;border-radius:50%;background:#71809a}.online .dot,.in_match .dot,.searching .dot{background:var(--green);box-shadow:0 0 10px var(--green)}.error-status .dot{background:var(--red)}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.form-grid input{width:100%;padding:12px;border:1px solid var(--line);background:#080d18;color:#fff;border-radius:11px}.logs{height:290px;overflow:auto;background:#070b13;border-radius:13px;padding:10px;font-family:ui-monospace,monospace;font-size:11px}.log{padding:7px 4px;border-bottom:1px solid #111a2a;color:#aebbd0}.log b{color:#65758f;margin-right:7px}.success{color:#52e4aa}.warning{color:#ffd06a}.danger{color:#ff7d8e}.modal{position:fixed;inset:0;background:#0009;display:grid;place-items:center;padding:20px;z-index:30}.modal-card{width:min(520px,100%);background:#0d1322;border:1px solid #263452;border-radius:22px;padding:22px;box-shadow:0 30px 100px #000}.key-output{margin-top:15px;padding:15px;border:1px dashed #35d9ff66;background:#06131a;border-radius:13px;font-family:ui-monospace,monospace;word-break:break-all;color:var(--cyan)}.key-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #182238}.key-row code{font-size:11px;color:#a9b6cc}.empty{padding:25px;text-align:center;color:var(--muted)}@media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}}@media(max-width:600px){.app{padding:9px}.topbar{top:5px}.grid{grid-template-columns:1fr 1fr;gap:9px}.stat{padding:14px}.stat strong{font-size:22px}.form-grid{grid-template-columns:1fr}.login-card{padding:26px}.brand small{display:none}.actions .btn{padding:9px 11px}}
+:root{
+ --bg:#070b14;--card:#0d1422;--card2:#101a2b;--line:#1d2a40;
+ --text:#f3f7ff;--muted:#8290a8;--cyan:#35d9ff;--blue:#667cff;
+ --green:#2ee59d;--red:#ff6478;--amber:#ffc857;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 20% -10%,#183064 0,transparent 35%),radial-gradient(circle at 100% 100%,#063c45 0,transparent 32%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input{font:inherit}
+button{touch-action:manipulation}
+.hidden{display:none!important}
+.login{min-height:100svh;display:grid;place-items:center;padding:20px}
+.login-card{width:min(430px,100%);padding:30px;border:1px solid var(--line);border-radius:26px;background:#0d1422ee;box-shadow:0 30px 100px #0009;backdrop-filter:blur(20px)}
+.logo{width:58px;height:58px;display:grid;place-items:center;border-radius:18px;background:linear-gradient(135deg,var(--cyan),var(--blue));font-weight:950;font-size:22px;box-shadow:0 12px 35px #35d9ff30}
+.login h1{margin:20px 0 7px;font-size:29px}.login p{color:var(--muted);line-height:1.55}
+.field{margin-top:20px}.field label{display:block;margin-bottom:8px;color:#aebbd0;font-size:12px;font-weight:700;letter-spacing:.08em}
+.field input,.input{width:100%;height:48px;padding:0 14px;border:1px solid var(--line);border-radius:13px;background:#080d17;color:#fff;outline:0}
+.field input:focus,.input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #35d9ff16}
+.btn{min-height:44px;border:1px solid #22304a;border-radius:12px;padding:0 15px;background:#141d2e;color:#fff;cursor:pointer;font-weight:650}
+.btn:active{transform:scale(.98)}
+.primary{border:0;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#041019;font-weight:850}
+.wide{width:100%;margin-top:12px}.error{margin-top:12px;color:#ff8b99;font-size:13px}
+.app{padding:12px 12px 92px}.wrap{width:min(1380px,100%);margin:auto}
+.topbar{position:sticky;top:8px;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 12px;border:1px solid var(--line);border-radius:18px;background:#0b111edc;backdrop-filter:blur(22px);box-shadow:0 15px 50px #0004}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}.mini-logo{width:42px;height:42px;flex:none;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,var(--cyan),var(--blue));font-weight:950}
+.brand b{display:block;font-size:13px;white-space:nowrap}.brand small{display:block;color:var(--muted);font-size:10px;margin-top:2px}
+.actions{display:flex;gap:7px}.actions .btn{min-height:40px;padding:0 11px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}
+.stat{padding:15px;border:1px solid var(--line);border-radius:17px;background:linear-gradient(180deg,#101827e8,#0b111ce8)}
+.stat span{color:var(--muted);font-size:10px;font-weight:750;letter-spacing:.08em}.stat strong{display:block;font-size:24px;margin-top:5px}
+.layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,.75fr);gap:12px}
+.panel{padding:15px;margin-bottom:12px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#101827ed,#0b111ce8);box-shadow:0 14px 45px #0002}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:13px}.panel h2{margin:0;font-size:15px}.muted{color:var(--muted);font-size:11px}
+.accounts-list{display:grid;gap:9px}
+.account-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:13px;border:1px solid #1a273c;border-radius:14px;background:#0b111d}
+.account-main{min-width:0}.player{display:flex;align-items:center;gap:8px}.player b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:7px}.meta span{color:#a4b1c5;font-size:10px}
+.account-stats{display:flex;align-items:center;gap:12px;margin-top:10px}.account-stats div{min-width:58px}.account-stats b{display:block;font-size:13px}.account-stats small{color:var(--muted);font-size:9px}
+.account-actions{display:flex;align-items:center;gap:6px}.icon-btn{width:42px;height:42px;padding:0;display:grid;place-items:center}
+.badge{display:inline-flex;align-items:center;gap:6px;border-radius:30px;padding:5px 8px;font-size:10px;background:#182238;color:#aab7ce;white-space:nowrap}
+.dot{width:6px;height:6px;border-radius:50%;background:#71809a}.online .dot,.in_match .dot,.searching .dot{background:var(--green);box-shadow:0 0 10px var(--green)}.error-status .dot{background:var(--red)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.segment{display:grid;grid-template-columns:1fr 1fr;padding:4px;margin-bottom:11px;border:1px solid var(--line);border-radius:13px;background:#080d17}.segment button{min-height:38px;border:0;border-radius:9px;background:transparent;color:var(--muted);font-size:12px;font-weight:750}.segment button.active{background:#17253a;color:#fff}
+.form-note{padding:10px 11px;margin-top:10px;border-radius:11px;background:#0a111e;color:var(--muted);font-size:10px;line-height:1.5}
+.logs{height:310px;overflow:auto;background:#070b13;border-radius:13px;padding:9px;font:11px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace}
+.log{padding:7px 4px;border-bottom:1px solid #111a2a;color:#aebbd0;overflow-wrap:anywhere}.log b{color:#65758f;margin-right:7px}.success{color:#52e4aa}.warning{color:#ffd06a}.danger{color:#ff7d8e}
+.empty{padding:25px;text-align:center;color:var(--muted);font-size:12px}
+.bottom-nav{display:none}
+.modal{position:fixed;inset:0;z-index:50;background:#000b;display:grid;place-items:center;padding:15px}.modal-card{width:min(520px,100%);max-height:88svh;overflow:auto;padding:20px;border:1px solid var(--line);border-radius:20px;background:#0d1422;box-shadow:0 30px 100px #000}
+.key-output{margin-top:15px;padding:14px;border:1px dashed #35d9ff66;background:#06131a;border-radius:12px;font:12px ui-monospace,monospace;word-break:break-all;color:var(--cyan)}
+.key-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid #182238}.key-row code{font-size:10px;color:#a9b6cc}
+.desktop-only{display:block}
+
+@media(max-width:900px){
+ .grid{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+ .app{padding:8px 8px 82px}.topbar{top:5px;border-radius:16px;padding:9px}.brand b{font-size:12px}.brand small{display:none}
+ .actions .btn{display:none}.actions .btn:first-child{display:grid;place-items:center;width:42px;padding:0;font-size:0}.actions .btn:first-child:after{content:"↻";font-size:18px}
+ .grid{gap:8px;margin:9px 0}.stat{padding:12px;border-radius:14px}.stat strong{font-size:20px}
+ .panel{padding:12px;border-radius:16px}.panel-head{align-items:flex-start}.panel-head .btn{min-height:40px;padding:0 10px}
+ .form-grid{grid-template-columns:1fr}.desktop-only{display:none}
+ .account-card{grid-template-columns:minmax(0,1fr)}.account-actions{justify-content:flex-end}
+ .logs{height:270px}.bottom-nav{position:fixed;left:8px;right:8px;bottom:8px;z-index:30;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:5px;border:1px solid var(--line);border-radius:18px;background:#0b111eee;backdrop-filter:blur(22px);box-shadow:0 15px 45px #0008}
+ .bottom-nav button{min-height:48px;border:0;border-radius:13px;background:transparent;color:#7f8da5;font-size:9px;font-weight:700}
+ .bottom-nav button span{display:block;font-size:18px;margin-bottom:2px}.bottom-nav button.active{background:#16243a;color:#fff}
+}
 </style>
 </head>
 <body>
+
 <section id="login" class="login">
   <div class="login-card">
-    <div class="logo">LW</div><h1>Control Center</h1><p>Nhập access key để mở bảng điều khiển. Chỉ master key mới có quyền tạo key mới.</p>
+    <div class="logo">LW</div>
+    <h1>Control Center</h1>
+    <p>Đăng nhập bằng Access Key để quản lý worker và tài khoản.</p>
     <div class="field"><label>ACCESS KEY</label><input id="loginKey" type="password" autocomplete="off" placeholder="Nhập key..."></div>
-    <button class="btn primary wide" onclick="login()">Đăng nhập</button><div id="loginError" class="error"></div>
+    <button class="btn primary wide" onclick="login()">Đăng nhập</button>
+    <div id="loginError" class="error"></div>
   </div>
 </section>
-<section id="app" class="app hidden"><div class="wrap">
-  <header class="topbar"><div class="brand"><div class="mini-logo">LW</div><div><b>LW CONTROL CENTER</b><small> Web management panel</small></div></div><div class="actions"><button class="btn" onclick="refreshStats()">↻ Refresh</button><button id="keysBtn" class="btn hidden" onclick="openKeys()">⚿ Access Keys</button><button class="btn" onclick="logout()">Đăng xuất</button></div></header>
-  <div class="grid"><div class="stat"><span>ACCOUNTS</span><strong id="sAccounts">0</strong></div><div class="stat"><span>MATCHES</span><strong id="sMatches">0</strong></div><div class="stat"><span>GAINED EXP</span><strong id="sExp">0</strong></div><div class="stat"><span>UPTIME</span><strong id="sUptime">00:00</strong></div></div>
-  <div class="layout"><main>
-    <div class="panel"><div class="panel-head"><div><h2>Accounts</h2><span class="muted">Theo dõi trạng thái realtime</span></div><button class="btn primary" onclick="openAdd()">＋ Thêm account</button></div><div class="table-wrap"><table><thead><tr><th>Player</th><th>Level</th><th>EXP</th><th>Matches</th><th>Status</th><th></th></tr></thead><tbody id="accounts"></tbody></table></div></div>
-    <div class="panel"><div class="panel-head"><h2>Live Logs</h2><span class="muted">Tự cập nhật mỗi 2.5 giây</span></div><div id="logs" class="logs"></div></div>
-  </main><aside>
-    <div class="panel"><div class="panel-head"><h2>Thêm tài khoản</h2><span class="muted">UID + Password</span></div><div class="form-grid"><input id="uid" placeholder="UID"><input id="password" type="password" placeholder="Password"></div><button class="btn primary wide" onclick="addAccount()">Thêm & khởi động</button><div class="muted" style="margin-top:10px">Hoặc dùng token ở phần bên dưới.</div><input id="token" style="margin-top:10px;width:100%;padding:12px;border-radius:11px;border:1px solid var(--line);background:#080d18;color:#fff" placeholder="Access token (tuỳ chọn)"><button class="btn wide" onclick="addToken()">Thêm token</button></div>
-    <div class="panel"><div class="panel-head"><h2>System</h2><span class="badge"><i class="dot"></i> LIVE</span></div><div class="muted">Dashboard đang kết nối trực tiếp với worker. Không cần thao tác API thủ công.</div></div>
-  </aside></div>
-</div></section>
+
+<section id="app" class="app hidden">
+<div class="wrap">
+  <header class="topbar">
+    <div class="brand">
+      <div class="mini-logo">LW</div>
+      <div><b>LW CONTROL CENTER</b><small>Mobile dashboard</small></div>
+    </div>
+    <div class="actions">
+      <button class="btn" onclick="refreshStats()">↻ Refresh</button>
+      <button id="keysBtn" class="btn hidden" onclick="openKeys()">⚿ Access Keys</button>
+      <button class="btn" onclick="logout()">Đăng xuất</button>
+    </div>
+  </header>
+
+  <div class="grid">
+    <div class="stat"><span>ACCOUNTS</span><strong id="sAccounts">0</strong></div>
+    <div class="stat"><span>MATCHES</span><strong id="sMatches">0</strong></div>
+    <div class="stat"><span>GAINED EXP</span><strong id="sExp">0</strong></div>
+    <div class="stat"><span>UPTIME</span><strong id="sUptime">00:00</strong></div>
+  </div>
+
+  <div class="layout">
+    <main>
+      <div class="panel" id="accountsPanel">
+        <div class="panel-head">
+          <div><h2>Accounts</h2><span class="muted">Trạng thái realtime</span></div>
+          <button class="btn primary" onclick="openAdd()">＋ Thêm</button>
+        </div>
+        <div id="accounts" class="accounts-list"></div>
+      </div>
+
+      <div class="panel" id="logsPanel">
+        <div class="panel-head"><div><h2>Live Logs</h2><span class="muted">Tự cập nhật mỗi 2.5 giây</span></div></div>
+        <div id="logs" class="logs"></div>
+      </div>
+    </main>
+
+    <aside id="addPanel">
+      <div class="panel">
+        <div class="panel-head"><div><h2>Thêm tài khoản</h2><span class="muted">Chọn phương thức</span></div></div>
+
+        <div class="segment">
+          <button id="uidTab" class="active" onclick="switchAdd('uid')">UID + Password</button>
+          <button id="tokenTab" onclick="switchAdd('token')">Access Token</button>
+        </div>
+
+        <div id="uidForm">
+          <div class="form-grid">
+            <input class="input" id="uid" placeholder="UID">
+            <input class="input" id="password" type="password" placeholder="Password">
+          </div>
+          <button class="btn primary wide" onclick="addAccount()">Thêm & khởi động</button>
+        </div>
+
+        <div id="tokenForm" class="hidden">
+          <input class="input" id="token" placeholder="Access token">
+          <button class="btn primary wide" onclick="addToken()">Thêm token</button>
+        </div>
+
+        <div class="form-note">Dữ liệu được gửi tới backend hiện tại. Giao diện này chỉ thay đổi phần hiển thị, không thay đổi API của server.</div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h2>System</h2><span class="badge online"><i class="dot"></i> LIVE</span></div>
+        <div class="muted">Dashboard đang kết nối trực tiếp với worker.</div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <button class="active" onclick="goTo('accountsPanel',this)"><span>⌂</span>Tổng quan</button>
+  <button onclick="goTo('addPanel',this)"><span>＋</span>Tài khoản</button>
+  <button onclick="goTo('logsPanel',this)"><span>≡</span>Logs</button>
+  <button onclick="logout()"><span>↪</span>Thoát</button>
+</nav>
+</section>
+
 <div id="modal" class="modal hidden"><div class="modal-card" id="modalContent"></div></div>
+
 <script>
+
 let role='user',timer;
 const $=id=>document.getElementById(id);
 async function req(url,opt={}){const r=await fetch(url,{credentials:'same-origin',...opt,headers:{'Content-Type':'application/json',...(opt.headers||{})}});let d={};try{d=await r.json()}catch{}if(r.status===401){showLogin();throw new Error('AUTH')}if(!r.ok||d.status==='error')throw new Error(d.error||'Request failed');return d}
@@ -40,7 +182,25 @@ function fmt(n){return Number(n||0).toLocaleString('en-US')}
 function uptime(sec){sec=Number(sec||0);let h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=sec%60;return [h,m,s].map((x,i)=>i===0?String(x).padStart(2,'0'):String(x).padStart(2,'0')).join(':')}
 async function refreshStats(){try{const d=await req('/api/stats');$('sAccounts').textContent=fmt(d.total_accounts);$('sMatches').textContent=fmt(d.total_matches);$('sExp').textContent='+'+fmt(d.total_gained_exp);$('sUptime').textContent=uptime(d.uptime);renderAccounts(d.accounts);renderLogs(d.logs)}catch(e){}}
 function statusBadge(s){let x=String(s||'OFFLINE').toLowerCase().replace(/[^a-z_]/g,'');return `<span class="badge ${x}"><i class="dot"></i>${s||'OFFLINE'}</span>`}
-function renderAccounts(a){if(!a.length){$('accounts').innerHTML='<tr><td colspan="6" class="empty">Chưa có account. Hãy thêm account để bắt đầu.</td></tr>';return}$('accounts').innerHTML=a.map(x=>`<tr><td><b>${esc(x.nickname)}</b><div class="muted">${esc(x.uid)} · ${esc(x.region)}</div></td><td>${fmt(x.level)}</td><td>+${fmt(x.gained_exp)}<div class="muted">${fmt(x.current_exp)}</div></td><td>${fmt(x.matches_played)}</td><td>${statusBadge(x.status)}</td><td><button class="btn" onclick="refreshAccount('${esc(x.uid)}')">↻</button> <button class="btn" onclick="deleteAccount('${esc(x.uid)}')">×</button></td></tr>`).join('')}
+function renderAccounts(a){
+ if(!a.length){$('accounts').innerHTML='<div class="empty">Chưa có account. Hãy thêm account để bắt đầu.</div>';return}
+ $('accounts').innerHTML=a.map(x=>`<div class="account-card">
+  <div class="account-main">
+   <div class="player"><b>${esc(x.nickname)}</b>${statusBadge(x.status)}</div>
+   <div class="meta"><span>UID ${esc(x.uid)}</span><span>Region ${esc(x.region)}</span></div>
+   <div class="account-stats">
+    <div><b>${fmt(x.level)}</b><small>LEVEL</small></div>
+    <div><b>+${fmt(x.gained_exp)}</b><small>EXP</small></div>
+    <div><b>${fmt(x.matches_played)}</b><small>MATCHES</small></div>
+    <div><b>${fmt(x.current_exp)}</b><small>CURRENT EXP</small></div>
+   </div>
+  </div>
+  <div class="account-actions">
+   <button class="btn icon-btn" onclick="refreshAccount('${esc(x.uid)}')">↻</button>
+   <button class="btn icon-btn" onclick="deleteAccount('${esc(x.uid)}')">×</button>
+  </div>
+ </div>`).join('')
+}
 function renderLogs(ls){$('logs').innerHTML=(ls||[]).slice().reverse().map(x=>`<div class="log"><b>${x.time||''}</b><span class="${x.level==='success'?'success':x.level==='warning'?'warning':x.level==='error'?'danger':''}">${esc(x.message||'')}</span></div>`).join('')||'<div class="empty">Chưa có log.</div>'}
 function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 async function addAccount(){const uid=$('uid').value.trim(),password=$('password').value.trim();if(!uid||!password)return alert('Nhập UID và Password.');try{await req('/api/account/add',{method:'POST',body:JSON.stringify({uid,password})});$('uid').value=$('password').value='';refreshStats();alert('Đã thêm account.')}catch(e){alert(e.message)}}
@@ -54,4 +214,18 @@ function keyList(keys){return keys.length?keys.map(k=>`<div class="key-row"><div
 async function createKey(){const label=$('keyLabel').value.trim();try{const d=await req('/api/keys/create',{method:'POST',body:JSON.stringify({label})});$('modalContent').insertAdjacentHTML('beforeend',`<div class="key-output">${esc(d.key)}</div><div class="muted" style="margin-top:8px">Hãy sao chép key này ngay. Vì server chỉ lưu hash nên không thể xem lại.</div>`);$('keyLabel').value='';}catch(e){alert(e.message)}}
 async function revokeKey(id){if(!confirm('Thu hồi key này?'))return;try{await req('/api/keys/revoke',{method:'POST',body:JSON.stringify({id})});openKeys()}catch(e){alert(e.message)}}
 $('loginKey').addEventListener('keydown',e=>{if(e.key==='Enter')login()});boot();
-</script></body></html>
+
+function switchAdd(mode){
+  document.getElementById('uidForm').classList.toggle('hidden',mode!=='uid');
+  document.getElementById('tokenForm').classList.toggle('hidden',mode!=='token');
+  document.getElementById('uidTab').classList.toggle('active',mode==='uid');
+  document.getElementById('tokenTab').classList.toggle('active',mode==='token');
+}
+function goTo(id,btn){
+  document.querySelectorAll('.bottom-nav button').forEach(x=>x.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+</script>
+</body>
+</html>
