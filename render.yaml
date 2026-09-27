@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: lw-control-center
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: python Main.py
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: ADMIN_KEY
+        sync: false
